@@ -1,14 +1,14 @@
 package com.wimbli.WorldBorder;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Set;
-
 import org.bukkit.Chunk;
-import org.bukkit.entity.Player;
 import org.bukkit.Server;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 
 public class WorldFillTask implements Runnable
@@ -194,9 +194,14 @@ public class WorldFillTask implements Runnable
 				}
 			}
 
-			// load the target chunk and generate it if necessary
-			world.loadChunk(x, z, true);
-			worldData.chunkExistsNow(x, z);
+			//try catch RuntimeException issues in order to avoid the abortion of issues caused by mods
+			try {
+				// load the target chunk and generate it if necessary
+				world.loadChunk(x, z, true);
+				worldData.chunkExistsNow(x, z);
+			} catch (RuntimeException e) {
+				//suppress
+			}
 
 			// There need to be enough nearby chunks loaded to make the server populate a chunk with trees, snow, etc.
 			// So, we keep the last few chunks loaded, and need to also temporarily load an extra inside chunk (neighbor closest to center of map)
