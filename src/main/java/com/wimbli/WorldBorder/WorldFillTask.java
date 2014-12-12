@@ -229,6 +229,8 @@ public class WorldFillTask implements Runnable
 					return;
 			} catch (RuntimeException e) {
 				//suppress
+			} catch (NoClassDefFoundError e) {
+				//suppress (net/minecraft/world/World$3 -> Out of memory)
 			}
 		}
 
